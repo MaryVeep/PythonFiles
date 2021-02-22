@@ -1,0 +1,319 @@
+Python Data Science Toolbox (Part 1)
+Bringing it all together (1)
+You've got your first taste of writing your own functions in the previous exercises. You've learned how to add parameters to your own function definitions, return a value or multiple values with tuples, and how to call the functions you've defined.
+In this and the following exercise, you will bring together all these concepts and apply them to a simple data science problem. You will load a dataset and develop functionalities to extract simple insights from the data. 
+For this exercise, your goal is to recall how to load a dataset into a DataFrame. The dataset contains Twitter data and you will iterate over entries in a column to build a dictionary in which the keys are the names of languages and the values are the number of tweets in the given language. The file tweets.csv is available in your current directory.
+Be aware that this is real data from Twitter and as such there is always a risk that it may contain profanity or other offensive content (in this exercise, and any following exercises that also use real Twitter data).
+Instructions
+100 XP
+Import the pandas package with the alias pd.
+Import the file 'tweets.csv' using the pandas function read_csv(). Assign the resulting DataFrame to df.
+Complete the for loop by iterating over col, the 'lang' column in the DataFrame df.
+Complete the bodies of the if-else statements in the for loop:  ifthe key is in the dictionary langs_count, add 1 to the value corresponding to this key in the dictionary, else add the key to langs_count and set the corresponding value to 1. Use the loop variable entry in your code.
+# Import pandas
+import pandas as pd
+ 
+# Import Twitter data as DataFrame: df
+df = pd.read_csv('tweets.csv')
+ 
+# Initialize an empty dictionary: langs_count
+langs_count = {}
+ 
+# Extract column from DataFrame: col
+col = df['lang']
+ 
+# Iterate over lang column in DataFrame
+for entry in col:
+ 
+    # If the language is in langs_count, add 1 
+    if entry in langs_count.keys():
+        langs_count[entry] += 1
+    # Else add the language to langs_count, set the value to 1
+    else:
+        langs_count[entry] = 1
+ 
+# Print the populated dictionary
+print(langs_count)
+
+Bringing it all together (2)
+Great job! You've now defined the functionality for iterating over entries in a column and building a dictionary with keys the names of languages and values the number of tweets in the given language. 
+In this exercise, you will define a function with the functionality you developed in the previous exercise, return the resulting dictionary from within the function, and call the function with the appropriate arguments. 
+For your convenience, the pandas package has been imported as pdand the 'tweets.csv' file has been imported into the tweets_dfvariable.
+Instructions
+100 XP
+Define the function count_entries(), which has two parameters. The first parameter is df for the DataFrame and the second is col_name for the column name.
+Complete the bodies of the if-else statements in the for loop: ifthe key is in the dictionary langs_count, add 1 to its current value, else add the key to langs_count and set its value to 1. Use the loop variable entry in your code.
+Return the langs_count dictionary from inside the count_entries() function.
+Call the count_entries() function by passing to it tweets_df and the name of the column, 'lang'. Assign the result of the call to the variable result.
+# Define count_entries()
+def count_entries(df, col_name):
+    """Return a dictionary with counts of 
+    occurrences as value for each key."""
+ 
+    # Initialize an empty dictionary: langs_count
+    langs_count = {}
+    
+    # Extract column from DataFrame: col
+    col = df[col_name]
+    
+    # Iterate over lang column in DataFrame
+    for entry in col:
+ 
+        # If the language is in langs_count, add 1
+        if entry in langs_count.keys():
+            langs_count[entry] += 1
+        # Else add the language to langs_count, set the value to 1
+        else:
+            langs_count[entry] = 1
+ 
+    # Return the langs_count dictionary
+    return langs_count
+ 
+# Call count_entries(): result
+result = count_entries(tweets_df, 'lang')
+ 
+# Print the result
+print(result)
+
+def func1():
+    num = 3
+    print(num)
+
+def func2():
+    global num
+    double_num = num * 2
+    num = 6
+    print(double_num)
+func1() prints out 3, func2() prints out 10, and the value of num in the global scope is 6. (ANSWER)
+The keyword global
+Let's work more on your mastery of scope. In this exercise, you will use the keyword global within a function to alter the value of a variable defined in the global scope.
+Instructions
+100 XP
+Use the keyword global to alter the object team in the global scope.
+Change the value of the team in the global scope to the string "justice league". Assign the result to the team.
+Hit the Submit button to see how executing your newly defined function change_team() changes the value of the name team!
+
+# Create a string: team
+team = "teen titans"
+ 
+# Define change_team()
+def change_team():
+    """Change the value of the global variable team."""
+ 
+    # Use team in global scope
+    global team
+    
+ 
+    # Change the value of team in global: team
+    team = "justice league"
+# Print team
+print(team)
+ 
+# Call change_team()
+change_team()
+ 
+# Print team
+print(team)
+
+Nested Functions I
+You've learned in the last video about nesting functions within functions. One reason why you'd like to do this is to avoid writing out the same computations within functions repeatedly. There's nothing new about defining nested functions: you simply define it as you would a regular function with def and embed it inside another function!
+In this exercise, inside a function three_shouts(), you will define a nested function inner() that concatenates a string object with !!!. three_shouts() then returns a tuple of three elements, each a string concatenated with !!! using inner(). Go for it!
+Instructions
+100 XP
+Complete the function header of the nested function with the function name inner() and a single parameter word.
+Complete the return value: each element of the tuple should be a call to inner(), passing in the parameters from three_shouts() as arguments to each call.
+# Define three_shouts
+def three_shouts(word1, word2, word3):
+    """Returns a tuple of strings
+    concatenated with '!!!'."""
+ 
+    # Define inner
+    def inner(word):
+        """Returns a string concatenated with '!!!'."""
+        return word + '!!!'
+ 
+    # Return a tuple of strings
+    return (inner(word1), inner(word2), inner(word3))
+ 
+# Call three_shouts() and print
+print(three_shouts('a', 'b', 'c'))
+
+Nested Functions II
+Great job, you've just nested a function within another function. One other pretty cool reason for nesting functions is the idea of a closure. This means that the nested or inner function remembers the state of its enclosing scope when called. Thus, anything defined locally in the enclosing scope is available to the inner function even when the outer function has finished execution.
+Let's move forward then! In this exercise, you will complete the definition of the inner function inner_echo() and then call echo() a couple of times, each with a different argument. Complete the exercise and see what the output will be!
+Instructions
+100 XP
+Complete the function header of the inner function with the function name inner_echo() and a single parameter word1.
+Complete the function echo() so that it returns inner_echo.
+We have called echo(), passing 2 as an argument, and assigned the resulting function to twice. Your job is to call echo(), passing 3 as an argument. Assign the resulting function to thrice.
+Hit Submit to call twice() and thrice() and print the results.
+# Define echo
+def echo(n):
+    """Return the inner_echo function."""
+ 
+    # Define inner_echo
+    def inner_echo(word1):
+        """Concatenate n copies of word1."""
+        echo_word = word1 * n
+        return echo_word
+ 
+    # Return inner_echo
+    return inner_echo
+ 
+# Call echo: twice
+twice = echo(2)
+ 
+# Call echo: thrice
+thrice = echo(3)
+ 
+# Call twice() and thrice() then print
+print(twice('hello'), thrice('hello'))
+
+The keyword nonlocal and nested functions
+Let's once again work further on your mastery of scope! In this exercise, you will use the keyword nonlocal within a nested function to alter the value of a variable defined in the enclosing scope.
+Instructions
+100 XP
+Assign to echo_word the string word, concatenated with itself.
+Use the keyword nonlocal to alter the value of echo_word in the enclosing scope.
+Alter echo_word to echo_word concatenated with '!!!'.
+Call the function echo_shout(), passing it a single argument 'hello'.
+# Define echo_shout()
+def echo_shout(word):
+    """Change the value of a nonlocal variable"""
+    echo_word = word
+    # Concatenate word with itself: echo_word
+    echo_word += echo_word 
+    
+    # Print echo_word
+    print(echo_word)
+    
+    # Define inner function shout()
+    def shout():
+        """Alter a variable in the enclosing scope"""    
+        # Use echo_word in nonlocal scope
+        nonlocal echo_word
+        
+        # Change echo_word to echo_word concatenated with '!!!'
+        echo_word += '!!!'
+    
+    # Call function shout()
+    shout()
+    
+    # Print echo_word
+    print(echo_word)
+ 
+# Call function echo_shout() with argument 'hello'
+echo_shout('hello')
+
+Functions with one default argument
+In the previous chapter, you've learned to define functions with more than one parameter and then calling those functions by passing the required number of arguments. In the last video, Hugo built on this idea by showing you how to define functions with default arguments. You will practice that skill in this exercise by writing a function that uses a default argument and then calling the function a couple of times.
+Instructions
+100 XP
+Instructions
+100 XP
+Complete the function header with the function name shout_echo. It accepts an argument word1 and a default argument echo with default value 1, in that order.
+Use the * operator to concatenate echo copies of word1. Assign the result to echo_word.
+Call shout_echo() with just the string, "Hey". Assign the result to no_echo.
+Call shout_echo() with the string "Hey" and the value 5 for the default argument, echo. Assign the result to with_echo.
+# Define shout_echo
+def shout_echo(word1, echo=1):
+    """Concatenate echo copies of word1 and three
+     exclamation marks at the end of the string."""
+ 
+    # Concatenate echo copies of word1 using *: echo_word
+    echo_word = word1 * echo
+ 
+    # Concatenate '!!!' to echo_word: shout_word
+    shout_word = echo_word + '!!!'
+ 
+    # Return shout_word
+    return shout_word
+ 
+# Call shout_echo() with "Hey": no_echo
+no_echo = shout_echo('Hey') 
+ 
+# Call shout_echo() with "Hey" and echo=5: with_echo
+with_echo = shout_echo('Hey', 5)
+ 
+# Print no_echo and with_echo
+print(no_echo)
+print(with_echo)
+
+Functions with multiple default arguments
+You've now defined a function that uses a default argument - don't stop there just yet! You will now try your hand at defining a function with more than one default argument and then calling this function in various ways.
+After defining the function, you will call it by supplying values to all the default arguments of the function. Additionally, you will call the function by not passing a value to one of the default arguments - see how that changes the output of your function!
+Instructions
+100 XP
+Instructions
+100 XP
+Complete the function header with the function name shout_echo. It accepts an argument word1, a default argument echo with default value 1 and a default argument intense with default value False, in that order.
+In the body of the if statement, make the string object echo_word upper case by applying the method .upper() on it.
+Call shout_echo() with the string, "Hey", the value 5 for echo and the value True for intense. Assign the result to with_big_echo.
+Call shout_echo() with the string "Hey" and the value True for intense. Assign the result to big_no_echo.
+# Define shout_echo
+def shout_echo(word1, echo=1, intense=False):
+    """Concatenate echo copies of word1 and three
+    exclamation marks at the end of the string."""
+ 
+    # Concatenate echo copies of word1 using *: echo_word
+    echo_word = word1 * echo
+ 
+    # Make echo_word uppercase if intense is True
+    if intense is True:
+        # Make uppercase and concatenate '!!!': echo_word_new
+        echo_word_new = echo_word.upper() + '!!!'
+    else:
+        # Concatenate '!!!' to echo_word: echo_word_new
+        echo_word_new = echo_word + '!!!'
+ 
+    # Return echo_word_new
+    return echo_word_new
+ 
+# Call shout_echo() with "Hey", echo=5 and intense=True: with_big_echo
+with_big_echo = shout_echo('Hey', echo=5, intense=True)
+ 
+# Call shout_echo() with "Hey" and intense=True: big_no_echo
+big_no_echo = shout_echo('Hey', intense=True)
+ 
+# Print values
+print(with_big_echo)
+print(big_no_echo)
+
+Functions with variable-length arguments (*args)
+Flexible arguments enable you to pass a variable number of arguments to a function. In this exercise, you will practice defining a function that accepts a variable number of string arguments.
+The function you will define is gibberish() which can accept a variable number of string values. Its return value is a single string composed of all the string arguments concatenated together in the order they were passed to the function call. You will call the function with a single string argument and see how the output changes with another call using more than one string argument. Recall from the previous video that, within the function definition, args is a tuple.
+Instructions
+100 XP
+Instructions
+100 XP
+Complete the function header with the function name gibberish. It accepts a single flexible argument *args.
+Initialize a variable hodgepodge to an empty string.
+Return the variable hodgepodge at the end of the function body.
+Call gibberish() with the single string, "luke". Assign the result to one_word.
+Hit the Submit button to call gibberish() with multiple arguments and to print the value to the Shell.
+ 
+# Define gibberish
+def gibberish(*args):
+    """Concatenate strings in *args together."""
+ 
+    # Initialize an empty string: hodgepodge
+    hodgepodge = ""
+ 
+    # Concatenate the strings in args
+    for word in args:
+        hodgepodge += word
+ 
+    # Return hodgepodge
+    return hodgepodge
+ 
+# Call gibberish() with one string: one_word
+one_word = gibberish("luke")
+ 
+# Call gibberish() with five strings: many_words
+many_words = gibberish("luke", "leia", "han", "obi", "darth")
+ 
+# Print one_word and many_words
+print(one_word)
+print(many_words)
+
+
